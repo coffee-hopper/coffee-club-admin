@@ -52,3 +52,31 @@ export default tseslint.config({
   },
 })
 ```
+
+## Development Setup
+
+This project uses `pnpm` as its package manager. Please do not use npm or yarn.
+
+### Prerequisites
+
+- Node.js (version specified in package.json)
+- pnpm (version specified in package.json)
+
+### Installation
+
+1. Install pnpm if you haven't already:
+```bash
+npm install -g pnpm
+```
+
+2. Install dependencies:
+```bash
+pnpm install
+```
+
+### Common Issues
+
+If you see errors about missing dependencies or invalid installations:
+1. Delete `node_modules` directory
+2. Delete any `package-lock.json` or `yarn.lock` files
+3. Run `pnpm install` again
