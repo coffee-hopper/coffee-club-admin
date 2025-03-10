@@ -4,10 +4,8 @@ interface MainLayoutProps {
 
 export function MainLayout({ children }: MainLayoutProps) {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto py-8 px-4">
-        {children}
-      </div>
+    <div className="flex justify-center w-[100vw] h-[100vh] p-2 bg-gray-50 overflow-hidden">
+      <div className="flex lg:w-5xl md:w-3xl w-xs mx-auto">{children}</div>
     </div>
   );
-} 
+}
