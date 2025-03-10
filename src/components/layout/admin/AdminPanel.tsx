@@ -8,6 +8,7 @@ export function AdminPanel() {
 
       <div className="flex flex-col">
         <Header />
+        
         <main className="border-2 border-pink-300 text-pink-500 p-6">body</main>
       </div>
     </div>
