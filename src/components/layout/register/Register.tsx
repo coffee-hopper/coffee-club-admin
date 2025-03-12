@@ -56,23 +56,17 @@ export function Register({
               </div>
               <div className="grid gap-6">
                 <div className="grid gap-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="phone">Phone</Label>
                   <Input
-                    id="email"
-                    type="email"
-                    placeholder="m@example.com"
+                    id="phone"
+                    type="phone"
+                    placeholder="0(5__)___-____"
                     required
                   />
                 </div>
                 <div className="grid gap-2">
                   <div className="flex items-center">
-                    <Label htmlFor="password">Password</Label>
-                    <a
-                      href="#"
-                      className="ml-auto text-sm underline-offset-4 hover:underline"
-                    >
-                      Forgot your password?
-                    </a>
+                    <Label htmlFor="password">Sms Code</Label>
                   </div>
                   <Input id="password" type="password" required />
                 </div>

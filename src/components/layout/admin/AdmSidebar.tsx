@@ -1,11 +1,14 @@
 import * as React from "react";
-import { ChevronRight } from "lucide-react";
-
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+  Calendar,
+  ChevronRight,
+  Home,
+  Inbox,
+  Search,
+  Settings,
+} from "lucide-react";
+
+import { Collapsible, CollapsibleTrigger } from "@/components/ui/collapsible";
 import {
   Sidebar,
   SidebarContent,
@@ -24,66 +27,33 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 // This is mock data.
-const data = {
-  versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
-  navMain: [
-    {
-      title: "Siparişler",
-      url: "#Orders",
-      items: [
-        {
-          title: "Toplam Sipariş",
-          url: "#",
-        },
-        {
-          title: "Toplam Kazanç",
-          url: "#",
-          isActive: true,
-        },
-      ],
-    },
-    {
-      title: "Menüler",
-      url: "#",
-      items: [
-        {
-          title: "Tüm Menüler",
-          url: "#",
-        },
-        {
-          title: "Yiyecek",
-          url: "#",
-        },
-        {
-          title: "İçecek",
-          url: "#",
-        },
-        {
-          title: "Favoriler",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Müşteriler",
-      url: "#",
-      items: [
-        {
-          title: "Müşteri menü 1",
-          url: "#",
-        },
-        {
-          title: "Müşteri menü 2",
-          url: "#",
-        },
-        {
-          title: "Müşteri menü 3",
-          url: "#",
-        },
-      ],
-    },
-  ],
-};
+const items = [
+  {
+    title: "Home",
+    url: "#",
+    icon: Home,
+  },
+  {
+    title: "Inbox",
+    url: "#",
+    icon: Inbox,
+  },
+  {
+    title: "Calendar",
+    url: "#",
+    icon: Calendar,
+  },
+  {
+    title: "Search",
+    url: "#",
+    icon: Search,
+  },
+  {
+    title: "Settings",
+    url: "#",
+    icon: Settings,
+  },
+];
 
 export function AdmSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { logout, user } = useAuth();
@@ -108,7 +78,7 @@ export function AdmSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
       <SidebarContent className="gap-0">
         {/* We create a collapsible SidebarGroup for each parent. */}
-        {data.navMain.map((item) => (
+        {items.map((item) => (
           <Collapsible
             key={item.title}
             title={item.title}
@@ -125,23 +95,26 @@ export function AdmSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
                 </CollapsibleTrigger>
               </SidebarGroupLabel>
-              <CollapsibleContent>
-                <SidebarGroupContent>
-                  <SidebarMenu>
-                    {item.items.map((item) => (
-                      <SidebarMenuItem key={item.title}>
-                        <SidebarMenuButton asChild isActive={item.isActive}>
-                          <a href={item.url}>{item.title}</a>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    ))}
-                  </SidebarMenu>
-                </SidebarGroupContent>
-              </CollapsibleContent>
+
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {items.map((item) => (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton asChild>
+                        <a href={item.url}>
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </a>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
             </SidebarGroup>
           </Collapsible>
         ))}
       </SidebarContent>
+
       <SidebarRail />
     </Sidebar>
   );
