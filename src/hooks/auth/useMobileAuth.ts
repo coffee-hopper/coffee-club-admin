@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { User } from "../../types/user";
+// import { User } from "../../types/user";
 import { storage } from "../../utils/storage";
 
 export function useMobileAuth() {
