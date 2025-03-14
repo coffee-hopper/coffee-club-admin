@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+
 import {
   BookOpen,
   Bot,
@@ -21,68 +22,68 @@ import { NavMain } from "../../ui/nav-main";
 import { NavProjects } from "../../ui/nav-projects";
 import { NavUser } from "../../ui/nav-user";
 
-// This is sample data.
+// This is mock data.
 const data = {
   navMain: [
     {
-      title: "Orders",
-      url: "#",
+      title: "Store",
+      url: "/orders",
       icon: SquareTerminal,
       isActive: true,
       items: [
         {
-          title: "History",
-          url: "#",
+          title: "Orders",
+          url: "/orders",
         },
         {
-          title: "Starred",
-          url: "#",
+          title: "Products",
+          url: "/products",
         },
         {
-          title: "Settings",
-          url: "#",
+          title: "Customers",
+          url: "/customers",
         },
       ],
     },
     {
-      title: "Products",
-      url: "#",
+      title: "Test 1",
+      url: "/",
       icon: Bot,
       items: [
         {
           title: "Genesis",
-          url: "#",
+          url: "/",
         },
         {
           title: "Explorer",
-          url: "#",
+          url: "/",
         },
         {
           title: "Quantum",
-          url: "#",
+          url: "/",
         },
       ],
     },
     {
-      title: "Customers",
-      url: "#",
+      title: "Test 2",
+      url: "/",
       icon: BookOpen,
       items: [
         {
           title: "Introduction",
-          url: "#",
+          url: "/",
         },
         {
           title: "Get Started",
-          url: "#",
+          url: "/",
         },
         {
           title: "Tutorials",
-          url: "#",
+          url: "/",
         },
         {
           title: "Changelog",
-          url: "#",
+          url: "/",
         },
       ],
     },
@@ -90,17 +91,17 @@ const data = {
   messages: [
     {
       name: "Messages",
-      url: "#",
+      url: "/",
       icon: Frame,
     },
     {
       name: "Unread",
-      url: "#",
+      url: "/",
       icon: PieChart,
     },
     {
       name: "Travel",
-      url: "#",
+      url: "/",
       icon: Map,
     },
   ],
@@ -111,8 +112,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <NavUser />
-
-        {/* <SidebarStoreHeader store={data.store} /> */}
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />

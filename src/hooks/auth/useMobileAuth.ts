@@ -42,8 +42,8 @@ export function useMobileAuth() {
       }
 
       const data = await response.json();
-      storage.setUser(data.user); // Save user data
-      queryClient.setQueryData(["user"], data.user); // Cache user
+      storage.setUser(data.user);
+      queryClient.setQueryData(["user"], data.user);
 
       return data;
     },

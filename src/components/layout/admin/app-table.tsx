@@ -1,197 +1,139 @@
+"use client";
+
+import { useLocation } from "react-router-dom";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { mockOrders, mockProducts, mockCustomers } from "@/data/mockdata";
 
-const invoices = [
-  {
-    invoice: "INV001",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
+interface TableColumn {
+  key: string;
+  label: string;
+}
+
+interface TableConfig {
+  title: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any[];
+  columns: TableColumn[];
+  stickyColumns?: string[];
+}
+
+const tableConfig: Record<string, TableConfig> = {
+  "/": {
+    title: "Welcome",
+    data: [],
+    columns: [],
   },
-  {
-    invoice: "INV002",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
+  "/orders": {
+    title: "Orders",
+    data: mockOrders,
+    columns: [
+      { key: "id", label: "Order ID" },
+      { key: "customer", label: "Customer" },
+      { key: "total", label: "Total Amount" },
+      { key: "status", label: "Status" },
+    ],
   },
-  {
-    invoice: "INV003",
-    paymentStatus: "Unpaid",
-    totalAmount: "$350.00",
-    paymentMethod: "Bank Transfer",
+  "/products": {
+    title: "Products",
+    data: mockProducts,
+    columns: [
+      { key: "id", label: "Product ID" },
+      { key: "name", label: "Product Name" },
+      { key: "price", label: "Price" },
+      { key: "stock", label: "Stock" },
+    ],
   },
-  {
-    invoice: "INV004",
-    paymentStatus: "Paid",
-    totalAmount: "$450.00",
-    paymentMethod: "Credit Card",
+  "/customers": {
+    title: "Customers",
+    data: mockCustomers,
+    columns: [
+      { key: "id", label: "Customer ID" },
+      { key: "name", label: "Name" },
+      { key: "email", label: "Email" },
+    ],
   },
-  {
-    invoice: "INV005",
-    paymentStatus: "Paid",
-    totalAmount: "$550.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV006",
-    paymentStatus: "Pending",
-    totalAmount: "$200.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-];
+};
 
 export function AppTable() {
+  const location = useLocation();
+  const { pathname } = location;
+  const { data, columns, stickyColumns } =
+    tableConfig[pathname] || tableConfig["/"];
+
   return (
-    <Table>
-      <TableCaption className="pb-4">
-        A list of your recent invoices.
-      </TableCaption>
-      <TableHeader>
-        <TableRow>
-          <TableHead className="w-[100px]">Invoice</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Method</TableHead>
-          <TableHead className="text-right">Amount</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {invoices.map((invoice) => (
-          <TableRow key={invoice.invoice}>
-            <TableCell className="font-medium">{invoice.invoice}</TableCell>
-            <TableCell>{invoice.paymentStatus}</TableCell>
-            <TableCell>{invoice.paymentMethod}</TableCell>
-            <TableCell className="text-right">{invoice.totalAmount}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-      <TableFooter>
-        <TableRow>
-          <TableCell colSpan={3}>Total</TableCell>
-          <TableCell className="text-right">$2,500.00</TableCell>
-        </TableRow>
-      </TableFooter>
-    </Table>
+    <div className="rounded-lg p-4">
+      {pathname === "/" ? (
+        <div className="text-center py-8">
+          <p className="text-muted-foreground text-lg">
+            Welcome! Please select a category from the sidebar to view data.
+          </p>
+        </div>
+      ) : (
+        <div className="flex flex-col h-[85vh] justify-between">
+          <Table className="w-full">
+            <TableHeader>
+              <TableRow>
+                {columns.map((col) => (
+                  <TableHead key={col.key}>{col.label}</TableHead>
+                ))}
+              </TableRow>
+            </TableHeader>
+          </Table>
+
+          <div className="max-h-[65vh] overflow-auto">
+            <Table className="w-full">
+              <TableBody>
+                {data.length > 0 ? (
+                  data.map((row) => (
+                    <TableRow key={row.id}>
+                      {columns.map((col) => (
+                        <TableCell
+                          key={col.key}
+                          className={
+                            stickyColumns?.includes(col.key)
+                              ? "sticky left-0 bg-white z-10 shadow-md"
+                              : ""
+                          }
+                        >
+                          {row[col.key as keyof typeof row]}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={columns.length}
+                      className="text-center py-4"
+                    >
+                      No data available
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
+
+          <div className="flex">
+            <TableFooter className="w-full">
+              <TableRow className="flex w-full  justify-between">
+                <TableCell colSpan={3}>Total</TableCell>
+                <TableCell className="text-right">
+                  {data.length} Items
+                </TableCell>
+              </TableRow>
+            </TableFooter>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
