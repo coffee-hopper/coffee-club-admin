@@ -12,18 +12,22 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "../../../hooks/auth/useAuth";
 import { useMockMobileAuth } from "@/hooks/auth/useMockMobileauth";
+// import { useMobileAuth } from "@/hooks/auth/useMobileAuth";
 
 export function Register({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const { handleGoogleLogin } = useAuth();
-  const { requestOtp, verifyOtp, isRequesting, isVerifying, step } =
-    useMockMobileAuth(); // Using mock version
 
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
+
+  //Mock Version
+
+  const { requestOtp, verifyOtp, isRequesting, isVerifying, step } =
+    useMockMobileAuth(); // Using mock version
 
   const handlePhoneSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,6 +40,30 @@ export function Register({
     setError("");
     verifyOtp({ phone, code: otp });
   };
+
+  //Using Real Otp Requests
+  // const { requestOtp, verifyOtp, isRequesting, isVerifying } = useMobileAuth(); // ✅ Now using real auth hook
+
+  // const handlePhoneSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setError("");
+
+  //   requestOtp(phone, {
+  //     onError: () => setError("Failed to send OTP. Please try again."),
+  //   });
+  // };
+
+  // const handleOtpSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setError("");
+
+  //   verifyOtp(
+  //     { phone, code: otp },
+  //     {
+  //       onError: () => setError("Invalid OTP. Please try again."),
+  //     }
+  //   );
+  // };
 
   return (
     <div
@@ -75,6 +103,7 @@ export function Register({
           </span>
         </div>
         <CardContent>
+          {/* {otp === "" ? ( */}
           {step === "phone" ? (
             <form onSubmit={handlePhoneSubmit}>
               <div className="grid gap-6">

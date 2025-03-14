@@ -122,7 +122,7 @@ export function AppTable() {
             </Table>
           </div>
 
-          <div className="flex">
+          <Table className="flex">
             <TableFooter className="w-full">
               <TableRow className="flex w-full  justify-between">
                 <TableCell colSpan={3}>Total</TableCell>
@@ -131,7 +131,7 @@ export function AppTable() {
                 </TableCell>
               </TableRow>
             </TableFooter>
-          </div>
+          </Table>
         </div>
       )}
     </div>

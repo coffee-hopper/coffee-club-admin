@@ -8,6 +8,8 @@ export function useMobileAuth() {
   // Request OTP
   const requestOtp = useMutation({
     mutationFn: async (phone: string) => {
+      console.log("📤 Sending OTP request with phone:", phone);
+
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/otp/request`,
         {
@@ -18,6 +20,8 @@ export function useMobileAuth() {
       );
 
       if (!response.ok) {
+        console.error("❌ Failed OTP request:", await response.text());
+
         throw new Error("Failed to send OTP");
       }
 
@@ -28,6 +32,8 @@ export function useMobileAuth() {
   // Verify OTP and authenticate
   const verifyOtp = useMutation({
     mutationFn: async ({ phone, code }: { phone: string; code: string }) => {
+      console.log("📤 Sending OTP verification with:", { phone, code });
+
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/otp/verify`,
         {
@@ -38,10 +44,14 @@ export function useMobileAuth() {
       );
 
       if (!response.ok) {
+        console.error("❌ Failed OTP verification:", await response.text());
+
         throw new Error("Invalid OTP");
       }
 
       const data = await response.json();
+      console.log("✅ OTP verification success:", data);
+
       storage.setUser(data.user);
       queryClient.setQueryData(["user"], data.user);
 
