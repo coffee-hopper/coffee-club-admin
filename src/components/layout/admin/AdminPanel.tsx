@@ -5,7 +5,7 @@ import { AppBody } from "./app-body";
 
 export function AdminPanel() {
   return (
-    <div className="flex lg:w-5xl md:w-3xl xl:w-screen mx-auto overflow-hidden">
+    <div className="flex xl:w-screen lg:w-5xl md:w-3xl w-screen  mx-auto overflow-hidden">
       <SidebarProvider>
         <AppSidebar />
         <AppBody />
