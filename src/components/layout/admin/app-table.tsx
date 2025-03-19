@@ -1,139 +1,110 @@
-"use client";
-
-import { useLocation } from "react-router-dom";
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { mockOrders, mockProducts, mockCustomers } from "@/data/mockdata";
+import { MoreHorizontal } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
+import { getActionHandler } from "@/utils/tableActions";
+import { useLocation } from "react-router-dom";
+import { ActionType } from "@/types/data-types";
 
-interface TableColumn {
-  key: string;
-  label: string;
+interface DataRow {
+  edit?: boolean;
+  [key: string]: unknown;
 }
 
-interface TableConfig {
-  title: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data: any[];
-  columns: TableColumn[];
-  stickyColumns?: string[];
-}
-
-const tableConfig: Record<string, TableConfig> = {
-  "/": {
-    title: "Welcome",
-    data: [],
-    columns: [],
-  },
-  "/orders": {
-    title: "Orders",
-    data: mockOrders,
-    columns: [
-      { key: "id", label: "Order ID" },
-      { key: "customer", label: "Customer" },
-      { key: "total", label: "Total Amount" },
-      { key: "status", label: "Status" },
-    ],
-  },
-  "/products": {
-    title: "Products",
-    data: mockProducts,
-    columns: [
-      { key: "id", label: "Product ID" },
-      { key: "name", label: "Product Name" },
-      { key: "price", label: "Price" },
-      { key: "stock", label: "Stock" },
-    ],
-  },
-  "/customers": {
-    title: "Customers",
-    data: mockCustomers,
-    columns: [
-      { key: "id", label: "Customer ID" },
-      { key: "name", label: "Name" },
-      { key: "email", label: "Email" },
-    ],
-  },
+type TableProps<T extends DataRow> = {
+  data: T[];
 };
 
-export function AppTable() {
+export function AppTable<T extends DataRow>({ data }: TableProps<T>) {
   const location = useLocation();
   const { pathname } = location;
-  const { data, columns, stickyColumns } =
-    tableConfig[pathname] || tableConfig["/"];
+
+  if (!data || data.length === 0) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-muted-foreground text-lg">No data available.</p>
+      </div>
+    );
+  }
+
+  const columns = Object.keys(data[0]) as (keyof T)[];
+
+  const actionConfig = getActionHandler(pathname);
+  const handleAction = actionConfig?.handler as
+    | ((action: ActionType, item: T) => void)
+    | undefined;
+  const availableActions: ActionType[] = actionConfig?.actions || [];
+
+  const hasActions = data.some((row) => row.edit === true);
 
   return (
     <div className="rounded-lg p-4">
-      {pathname === "/" ? (
-        <div className="text-center py-8">
-          <p className="text-muted-foreground text-lg">
-            Welcome! Please select a category from the sidebar to view data.
-          </p>
-        </div>
-      ) : (
-        <div className="flex flex-col h-[85vh] justify-between">
-          <Table className="w-full">
-            <TableHeader>
-              <TableRow>
-                {columns.map((col) => (
-                  <TableHead key={col.key}>{col.label}</TableHead>
-                ))}
-              </TableRow>
-            </TableHeader>
-          </Table>
-
-          <div className="max-h-[65vh] overflow-auto">
-            <Table className="w-full">
-              <TableBody>
-                {data.length > 0 ? (
-                  data.map((row) => (
-                    <TableRow key={row.id}>
-                      {columns.map((col) => (
-                        <TableCell
-                          key={col.key}
-                          className={
-                            stickyColumns?.includes(col.key)
-                              ? "sticky left-0 bg-white z-10 shadow-md"
-                              : ""
-                          }
-                        >
-                          {row[col.key as keyof typeof row]}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell
-                      colSpan={columns.length}
-                      className="text-center py-4"
-                    >
-                      No data available
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </div>
-
-          <Table className="flex">
-            <TableFooter className="w-full">
-              <TableRow className="flex w-full  justify-between">
-                <TableCell colSpan={3}>Total</TableCell>
-                <TableCell className="text-right">
-                  {data.length} Items
+      <Table>
+        <TableCaption>Displaying data</TableCaption>
+        <TableHeader>
+          <TableRow>
+            {columns.map((col) => (
+              <TableHead key={String(col)} className="capitalize">
+                {String(col)
+                  .replace(/([A-Z])/g, " $1")
+                  .trim()}
+              </TableHead>
+            ))}
+            {hasActions && <TableHead>Actions</TableHead>}
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {data.map((row, index) => (
+            <TableRow key={index}>
+              {columns.map((col) => (
+                <TableCell key={String(col)}>
+                  {typeof row[col] === "string" || typeof row[col] === "number"
+                    ? row[col]
+                    : JSON.stringify(row[col])}
                 </TableCell>
-              </TableRow>
-            </TableFooter>
-          </Table>
-        </div>
-      )}
+              ))}
+              {row.edit && handleAction && (
+                <TableCell>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger>
+                      <MoreHorizontal className="cursor-pointer" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      {availableActions.map((action, i) => (
+                        <DropdownMenuItem
+                          key={i}
+                          onClick={() => handleAction(action, row)}
+                        >
+                          {action}
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </TableCell>
+              )}
+            </TableRow>
+          ))}
+        </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TableCell colSpan={columns.length}>Total Items</TableCell>
+            <TableCell className="text-right">{data.length}</TableCell>
+          </TableRow>
+        </TableFooter>
+      </Table>
     </div>
   );
 }

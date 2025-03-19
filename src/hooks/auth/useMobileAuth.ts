@@ -10,18 +10,32 @@ export function useMobileAuth() {
     mutationFn: async (phone: string) => {
       console.log("📤 Sending OTP request with phone:", phone);
 
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/otp/request`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ phone }),
-        }
-      );
+      //   const response = await fetch(
+      //     `${import.meta.env.VITE_API_URL}/otp/request`,
+      //     {
+      //       method: "POST",
+      //       headers: { "Content-Type": "application/json" },
+      //       body: JSON.stringify({ phone }),
+      //     }
+      //   );
+
+      //   if (!response.ok) {
+      //     console.error("❌ Failed OTP request:", await response.text());
+
+      //     throw new Error("Failed to send OTP");
+      //   }
+
+      //   return response.json();
+      // },
+
+      const response = await fetch(`/otp/request`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone }),
+      });
 
       if (!response.ok) {
         console.error("❌ Failed OTP request:", await response.text());
-
         throw new Error("Failed to send OTP");
       }
 
@@ -34,14 +48,19 @@ export function useMobileAuth() {
     mutationFn: async ({ phone, code }: { phone: string; code: string }) => {
       console.log("📤 Sending OTP verification with:", { phone, code });
 
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/otp/verify`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ phone, code }),
-        }
-      );
+      // const response = await fetch(
+      //   `${import.meta.env.VITE_API_URL}/otp/verify`,
+      //   {
+      //     method: "POST",
+      //     headers: { "Content-Type": "application/json" },
+      //     body: JSON.stringify({ phone, code }),
+      //   }
+      // );
+      const response = await fetch(`/otp/verify`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone, code }),
+      });
 
       if (!response.ok) {
         console.error("❌ Failed OTP verification:", await response.text());

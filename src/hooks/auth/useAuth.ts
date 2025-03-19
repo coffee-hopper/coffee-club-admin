@@ -12,15 +12,27 @@ export function useAuth() {
     enabled: false, // we might add queryFn in the future
   });
 
-  const handleGoogleLogin = () => {
-    const url = `${import.meta.env.VITE_API_URL}/auth/google`;
-    window.location.href = url;
+  const handleGoogleLogin = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/auth/google`
+      );
+      const data = await response.json();
+
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        console.error("Google login URL not received.");
+      }
+    } catch (error) {
+      console.error("Failed to initiate Google login:", error);
+    }
   };
 
   const logout = useMutation({
     mutationFn: async () => {
       storage.removeUser();
-      queryClient.setQueryData(["user"], null); // for removing cache
+      queryClient.setQueryData(["user"], null);
     },
   });
 

@@ -1,5 +1,3 @@
-"use client";
-
 import { BadgeCheck, Bell, CreditCard, LogOut, CircleUser } from "lucide-react";
 
 import {
@@ -72,7 +70,7 @@ export function NavUser() {
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <Button
-                variant="destructive"
+                variant="default"
                 className="w-full"
                 onClick={() => logout()}
               >

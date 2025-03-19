@@ -14,13 +14,17 @@ export function AuthContainer() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const userParam = params.get("user");
-    const errorParam = params.get("error");
 
     if (userParam) {
       try {
-        const user = JSON.parse(decodeURIComponent(userParam));
-        storage.setUser(user);
-        queryClient.setQueryData(["user"], user); // for the cache
+        const decodedUser = decodeURIComponent(userParam);
+        if (decodedUser.startsWith("{") && decodedUser.endsWith("}")) {
+          const user = JSON.parse(decodedUser);
+          storage.setUser(user);
+          queryClient.setQueryData(["user"], user);
+        } else {
+          console.error("Invalid user data received:", decodedUser);
+        }
       } catch (error) {
         console.error("Failed to parse user data:", error);
       } finally {
@@ -31,12 +35,7 @@ export function AuthContainer() {
         );
       }
     }
-
-    if (errorParam) {
-      console.error("Auth error:", decodeURIComponent(errorParam));
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }
-  }, [queryClient]);
+  }, []);
 
   return user ? <AdminPanel /> : <Register />;
 }
