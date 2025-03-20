@@ -3,14 +3,13 @@ import { Separator } from "@radix-ui/react-separator";
 
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { AppTable } from "./app-table";
-import { mockData } from "@/data/mockdata";
 import { dataMap } from "@/config/routes";
 
 export function AppBody() {
   const location = useLocation();
   const { pathname } = location;
 
-  const selectedData = dataMap[pathname] || mockData.orders;
+  const selectedData = dataMap[pathname] || "";
 
   return (
     <div className="flex flex-col bg-accent flex-1 xl:mx-10 md:mx-5 mx-10 w-screen my-2 rounded-2xl">

@@ -30,7 +30,7 @@ export function NavMain({ items }: NavMainProps) {
           <SidebarMenuItem key={url}>
             <NavLink
               to={url}
-              className={`flex items-center gap-3 border-1 w-full ${
+              className={`flex items-center gap-3 w-full ${
                 state === "collapsed" ? "justify-center" : ""
               }`}
             >

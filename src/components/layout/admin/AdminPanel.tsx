@@ -11,6 +11,7 @@ export function AdminPanel() {
         <SidebarProvider>
           <AppSidebar />
           <Routes>
+            <Route path="/" element={<AppBody />} />
             {appRoutes.map(({ url }) => (
               <Route key={url} path={url} element={<AppBody />} />
             ))}
