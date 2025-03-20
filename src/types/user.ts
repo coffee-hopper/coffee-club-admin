@@ -1,4 +1,7 @@
 export interface User {
-  email: string;
+  id: string;
+  googleEmail: string;
+  username: string;
+
   // Add other user properties as needed
-} 
+}
