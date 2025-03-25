@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { mockData } from "@/data/mockdata";
 import { sidebarIcons } from "./sidebarIcons";
 
 export const appRoutes = [
@@ -23,11 +21,9 @@ export const appRoutes = [
     url: "/users",
     icon: sidebarIcons.users,
   },
+  {
+    title: "Test",
+    url: "/tests",
+    icon: sidebarIcons.tests,
+  },
 ];
-
-export const dataMap: Record<string, any[]> = {
-  "/orders": mockData.orders || [],
-  "/invoices": mockData.invoices || [],
-  "/products": mockData.products || [],
-  "/users": mockData.users || [],
-};

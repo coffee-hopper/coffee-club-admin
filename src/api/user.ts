@@ -11,3 +11,13 @@ export async function getUserByEmail(email: string): Promise<User> {
     handleApiError(error, "getUserByEmail");
   }
 }
+
+// Get all users by email
+export async function getAllUsers(): Promise<User[]> {
+  try {
+    const res = await client.get("/users");
+    return res.data;
+  } catch (error) {
+    handleApiError(error, "getAllUsers");
+  }
+}

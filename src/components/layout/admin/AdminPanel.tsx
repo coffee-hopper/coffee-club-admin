@@ -13,11 +13,11 @@ export function AdminPanel() {
           <AppSidebar />
           <Routes>
             <Route path="/" element={<AppBody />} />
+            <Route path="/tests" element={<AllTest />} />
             {appRoutes.map(({ url }) => (
               <Route key={url} path={url} element={<AppBody />} />
             ))}
             <Route path="*" element={<Navigate to="/" replace />} />
-            <Route path="/tests" element={<AllTest />} />
           </Routes>
         </SidebarProvider>
       </div>
