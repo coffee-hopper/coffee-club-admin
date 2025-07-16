@@ -29,7 +29,16 @@ export function NavUser() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton className="h-14 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
-              <CircleUser />
+              {user?.googlePicture ? (
+                <img
+                  src={user.googlePicture}
+                  alt="User"
+                  className="w-10 h-10 rounded-full object-cover border-2 border-primary shadow-sm"
+                />
+              ) : (
+                <CircleUser />
+              )}
+
               <span>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">
