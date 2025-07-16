@@ -89,7 +89,7 @@ export type Payment = {
 // PRODUCT TYPES
 export type CreateProductPayload = {
   name: string;
-  category: "drink" | "food" | "snack" | "accessory";
+  category: "coffee" | "tea" | "food";
   description?: string;
   price: number;
   stockQuantity: number;
@@ -99,6 +99,7 @@ export type CreateProductPayload = {
 export type Product = {
   id: number;
   name: string;
+  imageName?: string;
   category: string;
   description?: string;
   price: number;
@@ -116,6 +117,7 @@ export type User = {
   phone?: string;
   googleId?: string;
   googleEmail?: string;
+  googlePicture?: string;
   password?: string;
   role: "user" | "owner";
   createdAt: string;

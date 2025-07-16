@@ -14,14 +14,20 @@ export function AuthContainer() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const userParam = params.get("user");
+    const tokenParam = params.get("token");
 
-    if (userParam) {
+    if (userParam && tokenParam) {
       try {
         const decodedUser = decodeURIComponent(userParam);
+        const decodedToken = decodeURIComponent(tokenParam);
+
         if (decodedUser.startsWith("{") && decodedUser.endsWith("}")) {
           const user = JSON.parse(decodedUser);
           storage.setUser(user);
+          storage.setToken(decodedToken);
           queryClient.setQueryData(["user"], user);
+
+          console.log("🪪 Bearer Token:\n", `Bearer ${storage.getToken()}`);
         } else {
           console.error("Invalid user data received:", decodedUser);
         }

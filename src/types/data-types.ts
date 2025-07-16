@@ -2,6 +2,7 @@ export type User = {
   id: number;
   name: string;
   email: string;
+  googlePicture?: string;
   role: string;
   edit?: boolean;
 };
@@ -9,7 +10,8 @@ export type User = {
 export type Product = {
   id: number;
   name: string;
-  price: string;
+  imageName?: string;
+  price: number;
   stock: number;
   category: string;
   edit?: boolean;

@@ -2,7 +2,6 @@ import client from "./client";
 import { CreateInvoicePayload, Invoice } from "@/types/entity-types";
 import { handleApiError } from "./error-handler";
 
-// Fetch all invoices
 export async function getAllInvoices(): Promise<Invoice[]> {
   try {
     const res = await client.get("/invoices");
@@ -12,7 +11,6 @@ export async function getAllInvoices(): Promise<Invoice[]> {
   }
 }
 
-// Create invoice
 export async function createInvoice(
   data: CreateInvoicePayload
 ): Promise<Invoice> {
@@ -24,7 +22,6 @@ export async function createInvoice(
   }
 }
 
-// Fetch invoice by order ID
 export async function getInvoiceByOrderId(orderId: number): Promise<Invoice> {
   try {
     const res = await client.get(`/invoices/order/${orderId}`);

@@ -1,10 +1,11 @@
 import { useState } from "react";
 import UserTest from "./UserTest";
-import ProductTest from "./ProductTest";
 import OrderTest from "./OrderTest";
 import PaymentTest from "./PaymentTest";
 import InvoiceTest from "./InvoiceTest";
 import LoyaltyTest from "./LoyaltyTest";
+import ProductEdit from "./ProductEdit";
+import ProductCreate from "./ProductCreate";
 
 const testTabs = {
   user: {
@@ -12,8 +13,12 @@ const testTabs = {
     component: <UserTest />,
   },
   product: {
-    label: "Product Test",
-    component: <ProductTest />,
+    label: "Product Create",
+    component: <ProductCreate />,
+  },
+  productEdit: {
+    label: "Product Edit",
+    component: <ProductEdit />,
   },
   order: {
     label: "Order Test",

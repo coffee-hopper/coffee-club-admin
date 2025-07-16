@@ -6,7 +6,6 @@ import {
 import client from "./client";
 import { handleApiError } from "./error-handler";
 
-// Get all loyalty entries
 export async function getAllLoyaltyEntries(): Promise<LoyaltyEntry[]> {
   try {
     const res = await client.get("/loyalty");
@@ -16,7 +15,6 @@ export async function getAllLoyaltyEntries(): Promise<LoyaltyEntry[]> {
   }
 }
 
-// Add loyalty entry
 export async function addLoyaltyEntry(data: AddLoyaltyEntryPayload) {
   try {
     const res = await client.post("/loyalty", data);
@@ -26,7 +24,6 @@ export async function addLoyaltyEntry(data: AddLoyaltyEntryPayload) {
   }
 }
 
-// Get stars for user
 export async function getUserStars(userId: number): Promise<LoyaltySummary> {
   try {
     const res = await client.get(`/loyalty/user/${userId}/stars`);

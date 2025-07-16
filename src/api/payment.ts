@@ -2,7 +2,6 @@ import client from "./client";
 import { Payment, CreatePaymentPayload } from "@/types/entity-types";
 import { handleApiError } from "./error-handler";
 
-// Get all payments
 export async function getAllPayments(): Promise<Payment[]> {
   try {
     const res = await client.get("/payments");
@@ -12,7 +11,6 @@ export async function getAllPayments(): Promise<Payment[]> {
   }
 }
 
-// Create payment
 export async function createPayment(
   data: CreatePaymentPayload
 ): Promise<Payment> {
