@@ -2,6 +2,11 @@ import { sidebarIcons } from "./sidebarIcons";
 
 export const appRoutes = [
   {
+    title: "Products",
+    url: "/products",
+    icon: sidebarIcons.products,
+  },
+  {
     title: "Orders",
     url: "/orders",
     icon: sidebarIcons.orders,
@@ -10,11 +15,6 @@ export const appRoutes = [
     title: "Invoices",
     url: "/invoices",
     icon: sidebarIcons.invoices,
-  },
-  {
-    title: "Products",
-    url: "/products",
-    icon: sidebarIcons.products,
   },
   {
     title: "Users",

@@ -66,6 +66,7 @@ export function AppTable<T extends DataRow>({ data }: TableProps<T>) {
             {hasActions && <TableHead>Actions</TableHead>}
           </TableRow>
         </TableHeader>
+
         <TableBody>
           {data.map((row, index) => (
             <TableRow key={index}>
@@ -88,7 +89,7 @@ export function AppTable<T extends DataRow>({ data }: TableProps<T>) {
                           key={i}
                           onClick={() => handleAction(action, row)}
                         >
-                          {action}
+                          {action}asdasd
                         </DropdownMenuItem>
                       ))}
                     </DropdownMenuContent>

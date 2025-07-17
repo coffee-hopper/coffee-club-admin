@@ -52,7 +52,7 @@ export type CreateOrderPayload = {
 
 export type Order = {
   id: number;
-  user: { id: number; username: string };
+  username: string;
   items: OrderItem[];
   totalAmount: number;
   status: string;
@@ -119,7 +119,7 @@ export type User = {
   googleEmail?: string;
   googlePicture?: string;
   password?: string;
-  role: "user" | "owner";
+  role: "user" | "admin";
   createdAt: string;
   updatedAt: string;
 };

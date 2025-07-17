@@ -7,10 +7,12 @@ import { getAllProducts } from "@/api/product";
 import { getAllUsers } from "@/api/user";
 
 import { handleApiError } from "@/api/error-handler";
+import { useAuth } from "./auth/useAuth";
 
 export function useEntityData() {
   const location = useLocation();
   const pathname = location.pathname;
+  const { user } = useAuth();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [data, setData] = useState<any[]>([]);
@@ -33,7 +35,11 @@ export function useEntityData() {
           setData(await getAllProducts());
           break;
         case "/users":
-          setData(await getAllUsers());
+          if (user?.role === "admin") {
+            setData(await getAllUsers());
+          } else {
+            throw new Error("Unauthorized access to user data");
+          }
           break;
         default:
           setData([]);
