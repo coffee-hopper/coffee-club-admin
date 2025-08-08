@@ -12,11 +12,6 @@ export const appRoutes = [
     icon: sidebarIcons.orders,
   },
   {
-    title: "Invoices",
-    url: "/invoices",
-    icon: sidebarIcons.invoices,
-  },
-  {
     title: "Users",
     url: "/users",
     icon: sidebarIcons.users,

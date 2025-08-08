@@ -21,6 +21,77 @@ export type AddLoyaltyEntryPayload = {
   note?: string;
 };
 
+// ===== ORDER TYPES =====
+export type OrderItem = {
+  id: number;
+  order: { id: number };
+  productId: number;
+  product: { id: number; name: string; category: string };
+  quantity: number;
+  price: number;
+};
+
+export type Order = {
+  id: number;
+  user: User;
+  username: string;
+  items: OrderItem[];
+  totalAmount: number;
+  status: string;
+  createdAt: string;
+  payment?: Payment;
+  invoice?: Invoice;
+};
+
+export type OrderItemInput = {
+  product: { id: number };
+  quantity: number;
+  price: number;
+};
+
+export type CreateOrderPayload = {
+  user: number;
+  items: OrderItemInput[];
+  totalAmount: number;
+  status?: string;
+};
+
+// ===== PAYMENT TYPES =====
+export type Payment = {
+  id: number;
+  order: { id: number };
+  iyzicoTransactionId: string;
+  amount: number;
+  paymentMethod: "iyzico" | "cash";
+  status: "success" | "failed";
+  createdAt: string;
+};
+
+export type CreatePaymentPayload = {
+  order: number;
+  iyzicoTransactionId: string;
+  amount: number;
+  paymentMethod: "iyzico" | "cash";
+  status: "success" | "failed";
+};
+
+// ===== INVOICE TYPES =====
+export type Invoice = {
+  id: number;
+  order: { id: number };
+  billingAddress: string;
+  totalAmount: number;
+  invoiceDate: string;
+};
+
+export type CreateInvoicePayload = {
+  order: { id: number };
+  billingAddress: string;
+  totalAmount: number;
+};
+
+/*
+
 // INVOICE TYPES
 export type CreateInvoicePayload = {
   order: { id: number };
@@ -85,7 +156,7 @@ export type Payment = {
   status: string;
   paidAt: string;
 };
-
+*/
 // PRODUCT TYPES
 export type CreateProductPayload = {
   name: string;

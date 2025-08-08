@@ -17,23 +17,32 @@ import {
 } from "@/components/ui/sidebar";
 import { useAuth } from "@/hooks/auth/useAuth";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export function NavUser() {
   const { logout, user } = useAuth();
 
-  const { isMobile } = useSidebar();
+  const { isMobile, state } = useSidebar();
 
   return (
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <SidebarMenuButton className="h-14 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+            <SidebarMenuButton
+              className={cn(
+                "h-14 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground",
+                state === "collapsed" ? "min-w-16 min-h-14 items-center" : ""
+              )}
+            >
               {user?.googlePicture ? (
                 <img
                   src={user.googlePicture}
                   alt="User"
-                  className="w-10 h-10 rounded-full object-cover border-2 border-primary shadow-sm"
+                  className={cn(
+                    "rounded-full object-cover shadow-sm w-12 h-12",
+                    state === "collapsed" ? "min-w-12 min-h-12" : "h-12"
+                  )}
                 />
               ) : (
                 <CircleUser />

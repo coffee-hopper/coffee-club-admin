@@ -4,13 +4,15 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 
 import { AppTable } from "./app-table";
 import { ProductTable } from "./body/ProductTable";
-import { OrderTable } from "./body/OrderTable";
+
 import { UserTable } from "./body/UserTable";
+import OrderTable from "./body/OrderTable";
 
 import { appRoutes } from "@/config/routes";
 
 export function AppBody() {
-  const { data, loading, error, pathname } = useEntityData();
+  const { data, orders, invoices, products, loading, error, pathname } =
+    useEntityData();
 
   const route = appRoutes.find((r) => r.url === pathname);
 
@@ -19,7 +21,9 @@ export function AppBody() {
       case "/products":
         return <ProductTable data={data} />;
       case "/orders":
-        return <OrderTable data={data} />;
+        return (
+          <OrderTable orders={orders} invoices={invoices} products={products} />
+        );
       case "/users":
         return <UserTable data={data} />;
       default:
