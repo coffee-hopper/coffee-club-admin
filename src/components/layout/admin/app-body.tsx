@@ -3,23 +3,31 @@ import { Separator } from "@radix-ui/react-separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
 import { AppTable } from "./app-table";
-import { ProductTable } from "./body/ProductTable";
 
 import { UserTable } from "./body/UserTable";
 import OrderTable from "./body/OrderTable";
 
 import { appRoutes } from "@/config/routes";
+import ProductTable from "./body/ProductTable";
 
 export function AppBody() {
-  const { data, orders, invoices, products, loading, error, pathname } =
-    useEntityData();
+  const {
+    data,
+    orders,
+    invoices,
+    products,
+    loading,
+    error,
+    pathname,
+    refetch,
+  } = useEntityData();
 
   const route = appRoutes.find((r) => r.url === pathname);
 
   const renderTable = () => {
     switch (pathname) {
       case "/products":
-        return <ProductTable data={data} />;
+        return <ProductTable data={data} onRefresh={refetch} />;
       case "/orders":
         return (
           <OrderTable orders={orders} invoices={invoices} products={products} />

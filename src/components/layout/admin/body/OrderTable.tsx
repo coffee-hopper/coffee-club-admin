@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Invoice, Order, Product } from "@/types/entity-types";
 import OrderDetails from "./OrderDetails";
-import OrderProductCard from "./OrderProductCard";
+import ProductImageCard from "./ProductImageCard";
 import formatInvoiceDate from "@/utils/dateFormatter";
 
 type Props = {
@@ -17,13 +17,13 @@ export default function OrderTable({ orders, invoices, products }: Props) {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "success":
-        return "#28a745";
+        return "bg-green-600";
       case "pending":
-        return "#ffc107";
+        return "bg-yellow-500";
       case "cancelled":
-        return "#dc3545";
+        return "bg-red-600";
       default:
-        return "#6c757d";
+        return "bg-gray-600";
     }
   };
 
@@ -34,94 +34,50 @@ export default function OrderTable({ orders, invoices, products }: Props) {
   };
 
   return (
-    <div style={{ padding: "2rem", fontFamily: "Arial, sans-serif" }}>
-      <h2 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>
-        Order Summary
-      </h2>
+    <div className="p-8 font-sans">
+      <h2 className="text-2xl font-semibold mb-4">Order Summary</h2>
 
       {orders.map((order) => {
         const invoice = invoices.find((i) => i.order.id === order.id);
-
-        const statusColor = getStatusColor(order.status || "pending");
-
         const formattedDate = formatInvoiceDate(invoice?.invoiceDate);
+        const statusColor = getStatusColor(order.status || "pending");
 
         return (
           <div
             key={order.id}
-            style={{
-              border: "1px solid #ccc",
-              borderRadius: "6px",
-              marginBottom: "1.5rem",
-              padding: "1rem",
-              backgroundColor: "#fff",
-            }}
+            className="border border-gray-300 rounded-lg mb-6 p-4 bg-white shadow-sm"
           >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignContent: "space-between",
-                justifyContent: "space-between",
-                fontWeight: "bold",
-              }}
-            >
+            <div className="flex items-center justify-between font-semibold">
               <div
-                style={{
-                  backgroundColor: statusColor,
-                  color: "#fff",
-                  alignContent: "center",
-                  padding: "4px 10px",
-                  borderRadius: "4px",
-                  fontWeight: "bold",
-                }}
+                className={`${statusColor} text-white px-3 py-1 rounded text-sm`}
               >
                 {order.status ?? "Pending"}
               </div>
 
               <button
                 onClick={() => handleOrderDetailsClick(order)}
-                style={{
-                  padding: "6px 12px",
-                  border: "1px solid #666",
-                  background: "#f9f9f9",
-                  cursor: "pointer",
-                  borderRadius: "4px",
-                }}
+                className="px-3 py-1 text-sm border border-gray-600 rounded bg-gray-100 hover:bg-gray-200 transition"
               >
                 Order Details
               </button>
             </div>
 
-            <div style={{ marginTop: "8px", fontSize: "14px", color: "#555" }}>
-              {formattedDate}
-              {"  |  "}
-              <strong>Order No:</strong> #{order.id}
-              <span
-                style={{
-                  float: "right",
-                  fontWeight: "bold",
-                  fontSize: "16px",
-                }}
-              >
+            <div className="text-sm text-gray-600 mt-2 flex justify-between items-center">
+              <div>
+                {formattedDate} | <strong>Order No:</strong> #{order.id}
+              </div>
+              <div className="font-bold text-base">
                 Total: {order.totalAmount} ₺
-              </span>
+              </div>
             </div>
 
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "10px",
-                marginTop: "1rem",
-              }}
-            >
+            <div className="flex flex-wrap gap-2 mt-4">
               {order.items.map((item) => {
                 const product = products.find((p) => p.id === item.productId);
                 if (!product) return null;
 
                 return (
-                  <OrderProductCard
+                  <ProductImageCard
                     key={item.productId}
                     product={product}
                     quantity={item.quantity}

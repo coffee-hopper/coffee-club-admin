@@ -16,9 +16,4 @@ export const appRoutes = [
     url: "/users",
     icon: sidebarIcons.users,
   },
-  {
-    title: "Test",
-    url: "/tests",
-    icon: sidebarIcons.tests,
-  },
 ];
