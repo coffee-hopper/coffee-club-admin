@@ -2,7 +2,7 @@ import ProductImageCard from "./ProductImageCard";
 import { Product } from "@/types/entity-types";
 import { deleteProduct } from "@/api/product";
 import { useState } from "react";
-import { Pencil, Trash2 } from "lucide-react"; // from ShadCN/Lucide
+import { Pencil, Trash2 } from "lucide-react";
 
 type Props = {
   product: Product;

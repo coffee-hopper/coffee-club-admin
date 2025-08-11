@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Invoice, Order, Product } from "@/types/entity-types";
 import OrderDetails from "./OrderDetails";
-import ProductImageCard from "./ProductImageCard";
+
 import formatInvoiceDate from "@/utils/dateFormatter";
+import ProductImageCard from "../product/ProductImageCard";
 
 type Props = {
   orders: Order[];

@@ -2,8 +2,7 @@ import { Invoice, Order, Product } from "@/types/entity-types";
 import { useRef } from "react";
 
 import formatInvoiceDate from "@/utils/dateFormatter";
-
-import ProductImageCard from "./ProductImageCard";
+import ProductImageCard from "../product/ProductImageCard";
 
 interface Props {
   order: Order;

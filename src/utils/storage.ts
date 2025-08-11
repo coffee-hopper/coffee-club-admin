@@ -1,4 +1,4 @@
-import { User } from "../types/user";
+import { User } from "@/types/entity-types";
 
 const USER_KEY = "user";
 const TOKEN_KEY = "token";

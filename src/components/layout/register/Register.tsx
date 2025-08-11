@@ -11,7 +11,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "../../../hooks/auth/useAuth";
-// import { useMockMobileAuth } from "@/hooks/auth/useMockMobileauth";
 import { useMobileAuth } from "@/hooks/auth/useMobileAuth";
 
 export function Register({
@@ -23,21 +22,6 @@ export function Register({
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
-
-  // const { requestOtp, verifyOtp, isRequesting, isVerifying, step } =
-  //   useMockMobileAuth(); // Using mock version
-
-  // const handlePhoneSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setError("");
-  //   requestOtp(phone);
-  // };
-
-  // const handleOtpSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setError("");
-  //   verifyOtp({ phone, code: otp });
-  // };
 
   const { requestOtp, verifyOtp, isRequesting, isVerifying } = useMobileAuth(); // ✅ Now using real auth hook
 

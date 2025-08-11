@@ -2,13 +2,11 @@ import { useEntityData } from "@/hooks/use-entity-data";
 import { Separator } from "@radix-ui/react-separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
-import { AppTable } from "./app-table";
-
-import { UserTable } from "./body/UserTable";
-import OrderTable from "./body/OrderTable";
-
 import { appRoutes } from "@/config/routes";
-import ProductTable from "./body/ProductTable";
+
+import UserTable from "./body/user/UserTable";
+import OrderTable from "./body/order/OrderTable";
+import ProductTable from "./body/product/ProductTable";
 
 export function AppBody() {
   const {
@@ -35,7 +33,7 @@ export function AppBody() {
       case "/users":
         return <UserTable data={data} />;
       default:
-        return <AppTable data={data} />;
+        return <ProductTable data={data} onRefresh={refetch} />;
     }
   };
 
