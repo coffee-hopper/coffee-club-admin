@@ -1,4 +1,4 @@
-import { BadgeCheck, Bell, CreditCard, LogOut, CircleUser } from "lucide-react";
+import { BadgeCheck, Bell, CreditCard, LogOut } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -17,27 +17,33 @@ import {
 } from "@/components/ui/sidebar";
 import { useAuth } from "@/hooks/auth/useAuth";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import UserAvatar from "@/components/ui/UserAvatar";
 
 export function NavUser() {
   const { logout, user } = useAuth();
 
-  const { isMobile } = useSidebar();
+  const { isMobile, state } = useSidebar();
 
   return (
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <SidebarMenuButton className="h-14 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
-              {user?.googlePicture ? (
-                <img
-                  src={user.googlePicture}
-                  alt="User"
-                  className="w-10 h-10 rounded-full object-cover border-2 border-primary shadow-sm"
-                />
-              ) : (
-                <CircleUser />
+            <SidebarMenuButton
+              className={cn(
+                "h-14 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground",
+                state === "collapsed" ? "min-w-16 min-h-14 items-center" : ""
               )}
+            >
+              <UserAvatar
+                user={user ?? null}
+                size="lg"
+                className={cn(
+                  "shadow-sm",
+                  state === "collapsed" ? "min-w-12 min-h-12" : "w-12 h-12"
+                )}
+              />
 
               <span>
                 <div className="grid flex-1 text-left text-sm leading-tight">

@@ -21,22 +21,28 @@ export type AddLoyaltyEntryPayload = {
   note?: string;
 };
 
-// INVOICE TYPES
-export type CreateInvoicePayload = {
-  order: { id: number };
-  billingAddress: string;
-  totalAmount: number;
-};
-
-export type Invoice = {
+// ===== ORDER TYPES =====
+export type OrderItem = {
   id: number;
   order: { id: number };
-  billingAddress: string;
-  totalAmount: number;
-  invoiceDate: string;
+  productId: number;
+  product: { id: number; name: string; category: string };
+  quantity: number;
+  price: number;
 };
 
-// ORDER TYPES
+export type Order = {
+  id: number;
+  user: User;
+  username: string;
+  items: OrderItem[];
+  totalAmount: number;
+  status: string;
+  createdAt: string;
+  payment?: Payment;
+  invoice?: Invoice;
+};
+
 export type OrderItemInput = {
   product: { id: number };
   quantity: number;
@@ -50,24 +56,17 @@ export type CreateOrderPayload = {
   status?: string;
 };
 
-export type Order = {
+// ===== PAYMENT TYPES =====
+export type Payment = {
   id: number;
-  user: { id: number; username: string };
-  items: OrderItem[];
-  totalAmount: number;
-  status: string;
+  order: { id: number };
+  iyzicoTransactionId: string;
+  amount: number;
+  paymentMethod: "iyzico" | "cash";
+  status: "success" | "failed";
   createdAt: string;
 };
 
-export type OrderItem = {
-  id: number;
-  order: { id: number };
-  product: { id: number; name: string };
-  quantity: number;
-  price: number;
-};
-
-// PAYMENT TYPES
 export type CreatePaymentPayload = {
   order: number;
   iyzicoTransactionId: string;
@@ -76,14 +75,19 @@ export type CreatePaymentPayload = {
   status: "success" | "failed";
 };
 
-export type Payment = {
+// ===== INVOICE TYPES =====
+export type Invoice = {
   id: number;
   order: { id: number };
-  iyzicoTransactionId: string;
-  amount: number;
-  paymentMethod: string;
-  status: string;
-  paidAt: string;
+  billingAddress: string;
+  totalAmount: number;
+  invoiceDate: string;
+};
+
+export type CreateInvoicePayload = {
+  order: { id: number };
+  billingAddress: string;
+  totalAmount: number;
 };
 
 // PRODUCT TYPES
@@ -119,7 +123,7 @@ export type User = {
   googleEmail?: string;
   googlePicture?: string;
   password?: string;
-  role: "user" | "owner";
+  role: "user" | "admin";
   createdAt: string;
   updatedAt: string;
 };

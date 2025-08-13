@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-// import { User } from "../../types/user";
-import { storage } from "../../utils/storage";
+import { setAuth } from "@/utils/storage";
+import { User } from "@/types/entity-types";
 
 export function useMobileAuth() {
   const queryClient = useQueryClient();
@@ -71,8 +71,23 @@ export function useMobileAuth() {
       const data = await response.json();
       console.log("✅ OTP verification success:", data);
 
-      storage.setUser(data.user);
-      queryClient.setQueryData(["user"], data.user);
+      const { token, user, expiresAt, exp } = data ?? {};
+
+      if (!token || !user || (!expiresAt && typeof exp !== "number")) {
+        throw new Error("OTP verify response missing required fields");
+      }
+
+      const storedUser: User = {
+        id: user.id,
+        username: user.username,
+        role: user.role,
+        createdAt: "",
+        updatedAt: "",
+      };
+
+      setAuth({ token, user: storedUser, expiresAt, exp });
+
+      queryClient.setQueryData(["user"], storedUser);
 
       return data;
     },

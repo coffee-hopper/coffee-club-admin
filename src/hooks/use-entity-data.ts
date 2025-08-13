@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -7,13 +8,18 @@ import { getAllProducts } from "@/api/product";
 import { getAllUsers } from "@/api/user";
 
 import { handleApiError } from "@/api/error-handler";
+import { useAuth } from "./auth/useAuth";
 
 export function useEntityData() {
   const location = useLocation();
   const pathname = location.pathname;
+  const { user } = useAuth();
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [data, setData] = useState<any[]>([]);
+  const [orders, setOrders] = useState<any[]>();
+  const [invoices, setInvoices] = useState<any[]>();
+  const [products, setProducts] = useState<any[]>();
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -23,9 +29,18 @@ export function useEntityData() {
 
     try {
       switch (pathname) {
-        case "/orders":
-          setData(await getAllOrders());
+        case "/orders": {
+          const [orderRes, invoiceRes, productRes] = await Promise.all([
+            getAllOrders(),
+            getAllInvoices(),
+            getAllProducts(),
+          ]);
+          setOrders(orderRes);
+          setInvoices(invoiceRes);
+          setProducts(productRes);
+          setData(orderRes);
           break;
+        }
         case "/invoices":
           setData(await getAllInvoices());
           break;
@@ -33,7 +48,11 @@ export function useEntityData() {
           setData(await getAllProducts());
           break;
         case "/users":
-          setData(await getAllUsers());
+          if (user?.role === "admin") {
+            setData(await getAllUsers());
+          } else {
+            throw new Error("Unauthorized access to user data");
+          }
           break;
         default:
           setData([]);
@@ -51,5 +70,14 @@ export function useEntityData() {
     fetchData();
   }, [pathname]);
 
-  return { data, loading, error, pathname, refetch: fetchData };
+  return {
+    data: data ?? [],
+    orders: orders ?? [],
+    invoices: invoices ?? [],
+    products: products ?? [],
+    loading,
+    error,
+    pathname,
+    refetch: fetchData,
+  };
 }
