@@ -1,4 +1,4 @@
-import { BadgeCheck, Bell, CreditCard, LogOut, CircleUser } from "lucide-react";
+import { BadgeCheck, Bell, CreditCard, LogOut } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -18,6 +18,7 @@ import {
 import { useAuth } from "@/hooks/auth/useAuth";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import UserAvatar from "@/components/ui/UserAvatar";
 
 export function NavUser() {
   const { logout, user } = useAuth();
@@ -35,18 +36,14 @@ export function NavUser() {
                 state === "collapsed" ? "min-w-16 min-h-14 items-center" : ""
               )}
             >
-              {user?.googlePicture ? (
-                <img
-                  src={user.googlePicture}
-                  alt="User"
-                  className={cn(
-                    "rounded-full object-cover shadow-sm w-12 h-12",
-                    state === "collapsed" ? "min-w-12 min-h-12" : "h-12"
-                  )}
-                />
-              ) : (
-                <CircleUser />
-              )}
+              <UserAvatar
+                user={user ?? null}
+                size="lg"
+                className={cn(
+                  "shadow-sm",
+                  state === "collapsed" ? "min-w-12 min-h-12" : "w-12 h-12"
+                )}
+              />
 
               <span>
                 <div className="grid flex-1 text-left text-sm leading-tight">

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Product } from "@/types/entity-types";
 import { updateProduct } from "@/api/product";
 import getImagePath from "@/utils/getImagePath";
+import { Button } from "@/components/ui/button";
 
 type Props = {
   open: boolean;
@@ -255,20 +256,24 @@ export default function ProductEditModal({
             </div>
 
             <div className="flex justify-end gap-2 mt-6">
-              <button
+              <Button
+                variant="secondary"
+                className="gap-2"
                 onClick={onClose}
-                disabled={saving}
-                className="px-4 py-2 rounded-md border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-60"
+                title="Close without saving"
               >
                 Cancel
-              </button>
-              <button
+              </Button>
+
+              <Button
+                variant="default"
+                className="gap-2"
                 onClick={handleSave}
                 disabled={saving}
-                className="px-4 py-2 rounded-md border border-blue-600 bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-60"
+                title="Save Changes"
               >
                 {saving ? "Saving..." : "Save changes"}
-              </button>
+              </Button>
             </div>
           </div>
         </div>

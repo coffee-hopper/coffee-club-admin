@@ -3,6 +3,7 @@ import { Product } from "@/types/entity-types";
 import { deleteProduct } from "@/api/product";
 import { useState } from "react";
 import { Pencil, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 type Props = {
   product: Product;
@@ -46,21 +47,24 @@ export default function ProductRow({ product, onEdit, onDeleted }: Props) {
       </div>
 
       <div className="flex gap-2">
-        <button
+        <Button
+          variant="outline"
+          className="gap-2"
           onClick={onEdit}
-          className="p-2 border border-gray-300 rounded-md bg-gray-50 hover:bg-gray-100 transition"
-          title="Edit stock"
+          title="Edit Details"
         >
           <Pencil className="w-4 h-4 text-gray-700" />
-        </button>
-        <button
+        </Button>
+
+        <Button
+          variant="destructive"
+          className="gap-2"
           onClick={handleDelete}
           disabled={deleting}
-          className="p-2 border border-red-300 text-red-700 rounded-md bg-red-50 hover:bg-red-100 transition disabled:opacity-60"
-          title="Delete product"
+          title="Edit Details"
         >
           <Trash2 className="w-4 h-4" />
-        </button>
+        </Button>
       </div>
     </div>
   );

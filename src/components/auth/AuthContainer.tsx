@@ -1,47 +1,59 @@
-import { useEffect } from "react";
-import { useQueryClient } from "@tanstack/react-query";
-
-import { useAuth } from "../../hooks/auth/useAuth";
-import { storage } from "../../utils/storage";
-
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { setAuth, isAuthenticated } from "@/utils/storage";
 import { AdminPanel } from "../layout/admin/AdminPanel";
 import { Register } from "../layout/register/Register";
+import { useQueryClient } from "@tanstack/react-query";
 
-export function AuthContainer() {
+function safeParseUser(userParam: string | null) {
+  if (!userParam) return null;
+  try {
+    const decoded = decodeURIComponent(userParam);
+    return JSON.parse(decoded);
+  } catch {
+    try {
+      return JSON.parse(userParam);
+    } catch {
+      return null;
+    }
+  }
+}
+
+export default function AuthContainer() {
   const queryClient = useQueryClient();
-  const { user } = useAuth();
+
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [, setVersion] = useState(0);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const userParam = params.get("user");
-    const tokenParam = params.get("token");
+    const qp = new URLSearchParams(location.search);
+    const token = qp.get("token");
+    const expStr = qp.get("exp");
+    const expiresAtParam = qp.get("expiresAt");
+    const userParam = qp.get("user");
 
-    if (userParam && tokenParam) {
+    if (token && (expStr || expiresAtParam) && userParam) {
+      const user = safeParseUser(userParam);
+      const expNum = expStr ? Number(expStr) : undefined;
+
       try {
-        const decodedUser = decodeURIComponent(userParam);
-        const decodedToken = decodeURIComponent(tokenParam);
+        setAuth({
+          token,
+          user,
+          expiresAt: expiresAtParam ?? undefined,
+          exp: Number.isFinite(expNum) ? (expNum as number) : undefined,
+        });
 
-        if (decodedUser.startsWith("{") && decodedUser.endsWith("}")) {
-          const user = JSON.parse(decodedUser);
-          storage.setUser(user);
-          storage.setToken(decodedToken);
-          queryClient.setQueryData(["user"], user);
+        setVersion((v) => v + 1);
 
-          console.log("🪪 Bearer Token:\n", `Bearer ${storage.getToken()}`);
-        } else {
-          console.error("Invalid user data received:", decodedUser);
-        }
-      } catch (error) {
-        console.error("Failed to parse user data:", error);
-      } finally {
-        window.history.replaceState(
-          {},
-          document.title,
-          window.location.pathname
-        );
+        queryClient.setQueryData(["user"], user);
+        navigate("/products", { replace: true });
+      } catch {
+        /* noop */
       }
     }
-  }, []);
+  }, [location.search, navigate]);
 
-  return user ? <AdminPanel /> : <Register />;
+  return isAuthenticated() ? <AdminPanel /> : <Register />;
 }

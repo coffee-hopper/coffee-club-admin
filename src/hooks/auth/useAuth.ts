@@ -1,15 +1,14 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { User } from "../../types/user";
-import { storage } from "../../utils/storage";
-// import { api } from "../../lib/api";
+import { getUser as getStoredUser, clearAuth } from "@/utils/storage";
+import { User } from "@/types/entity-types";
 
 export function useAuth() {
   const queryClient = useQueryClient();
 
   const { data: user } = useQuery<User | null>({
     queryKey: ["user"],
-    initialData: storage.getUser,
-    enabled: false, // we might add queryFn in the future
+    initialData: getStoredUser,
+    enabled: false,
   });
 
   const handleGoogleLogin = async () => {
@@ -18,7 +17,6 @@ export function useAuth() {
         `${import.meta.env.VITE_API_URL}/auth/google`
       );
       const data = await response.json();
-
       if (data.url) {
         window.location.href = data.url;
       } else {
@@ -31,8 +29,9 @@ export function useAuth() {
 
   const logout = useMutation({
     mutationFn: async () => {
-      storage.removeUser();
+      clearAuth();
       queryClient.setQueryData(["user"], null);
+      window.location.assign("/");
     },
   });
 

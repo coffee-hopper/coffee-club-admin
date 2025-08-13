@@ -4,6 +4,7 @@ import OrderDetails from "./OrderDetails";
 
 import formatInvoiceDate from "@/utils/dateFormatter";
 import ProductImageCard from "../product/ProductImageCard";
+import { Button } from "@/components/ui/button";
 
 type Props = {
   orders: Order[];
@@ -55,12 +56,14 @@ export default function OrderTable({ orders, invoices, products }: Props) {
                 {order.status ?? "Pending"}
               </div>
 
-              <button
+              <Button
+                variant="secondary"
+                className="gap-2"
                 onClick={() => handleOrderDetailsClick(order)}
-                className="px-3 py-1 text-sm border border-gray-600 rounded bg-gray-100 hover:bg-gray-200 transition"
+                title="Open Order Details"
               >
                 Order Details
-              </button>
+              </Button>
             </div>
 
             <div className="text-sm text-gray-600 mt-2 flex justify-between items-center">

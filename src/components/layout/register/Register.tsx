@@ -23,7 +23,7 @@ export function Register({
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
 
-  const { requestOtp, verifyOtp, isRequesting, isVerifying } = useMobileAuth(); // ✅ Now using real auth hook
+  const { requestOtp, verifyOtp, isRequesting, isVerifying } = useMobileAuth();
 
   const handlePhoneSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

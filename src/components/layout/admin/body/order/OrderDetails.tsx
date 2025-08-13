@@ -3,6 +3,7 @@ import { useRef } from "react";
 
 import formatInvoiceDate from "@/utils/dateFormatter";
 import ProductImageCard from "../product/ProductImageCard";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   order: Order;
@@ -94,18 +95,23 @@ export default function OrderDetails({
         </p>
 
         <div className="flex justify-between mt-6 print:hidden">
-          <button
+          <Button
+            variant="secondary"
+            className="gap-2"
             onClick={onClose}
-            className="px-4 py-2 border border-gray-400 rounded-lg hover:bg-gray-100 transition"
+            title="Close Details"
           >
             Close
-          </button>
-          <button
+          </Button>
+
+          <Button
+            variant="outline"
+            className="gap-2"
             onClick={handlePrint}
-            className="px-4 py-2 border border-gray-400 rounded-lg hover:bg-gray-100 transition"
+            title="Print Details"
           >
             Print PDF
-          </button>
+          </Button>
         </div>
       </div>
     </div>

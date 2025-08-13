@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { User } from "@/types/entity-types";
 import { updateUserRole } from "@/api/user";
+import { Button } from "@/components/ui/button";
 
 type Props = {
   open: boolean;
@@ -70,19 +71,24 @@ export default function UserEditRoleModal({
         {error && <p className="text-sm text-red-600 mb-3">{error}</p>}
 
         <div className="flex justify-end gap-2">
-          <button
+          <Button
+            variant="secondary"
+            className="gap-2"
             onClick={onClose}
-            className="px-4 py-2 rounded-md border border-gray-300 bg-white hover:bg-gray-50"
+            title="Cancel Changes"
           >
             Cancel
-          </button>
-          <button
+          </Button>
+
+          <Button
+            variant="default"
+            className="gap-2"
             onClick={handleSave}
             disabled={saving}
-            className="px-4 py-2 rounded-md border border-blue-600 bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-60"
+            title="Save Changes"
           >
-            {saving ? "Saving..." : "Save"}
-          </button>
+            {saving ? "Saving..." : "Save changes"}
+          </Button>
         </div>
       </div>
     </div>
